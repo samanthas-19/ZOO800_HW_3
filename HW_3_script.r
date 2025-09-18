@@ -30,14 +30,12 @@ sum(species_counts)
 #and report the number of species with it
 species_counts[which.max(species_counts)]
 
-#######this part is not working, not done properly
-#######Please add someone else's code here
-depths = c("surface", "mid", "bottom")
-days = c("day_1", "day_2", "day_3")
-chlorophyll = c(12, 5, 34)
-measurements = c(days, depths, chlorophyll)
-chlorophyll_array = array(measurements)
-chlorophyll_array
+day1 <- c('surface' = 20, 'mid' = 13, 'bottom' = 5)
+day2 <- c('surface' = 28, 'mid' = 11, 'bottom' = 8)
+day3 <- c('surface' = 34, 'mid' = 16, 'bottom' = 2)
+
+chlorophyll_array <- array(c(day1, day2, day3), dim = c(3,3))
+rowMeans(chlorophyll_array)
 
 
 ##-------------Objective 3----------------##
