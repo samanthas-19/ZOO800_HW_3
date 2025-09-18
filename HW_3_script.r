@@ -31,6 +31,7 @@ sum(species_counts)
 species_counts[which.max(species_counts)]
 
 #######this part is not working, not done properly
+#######Please add someone else's code here
 depths = c("surface", "mid", "bottom")
 days = c("day_1", "day_2", "day_3")
 chlorophyll = c(12, 5, 34)
@@ -64,16 +65,45 @@ average_DO
 
 temp_CF = lakes$Temp_C
 
-C_F_temp = (temp_CF*9/5) + 32
+Temp_F = (temp_CF*9/5) + 32
 
-C_F_temp
+Temp_F
 
-lakes_CF = data.frame(lakes, C_F_temp)
+lakes_CF = data.frame(lakes, Temp_F)
 lakes_CF
 
 #now to do the Bonus part!
-install.packages("LakeMetabolizer")
+####install below
+#install.packages("LakeMetabolizer")
+##load library
 library(LakeMetabolizer)
 
+#------this part I am currently working on------#
+O_equilibrium_concentration = data.frame(lakes_CF$Temp_C, colnames("O_equilibrium_concentration"))
 
+colnames(O_equilibrium_concentration) = "O_equilibrium_concentration"
 
+O_equilibrium_concentration
+
+O_equilibrium_conc =
+  o2.at.sat.base(
+    O_equilibrium_concentration,
+    altitude = 0,
+    salinity = 0,
+    model = "garcia-benson"
+  )
+
+o_equilibrium_conc = data.frame(
+  O_equilibrium_concentration =
+    o2.at.sat.base(
+    o_equilibrium_conc,
+    altitude = 0,
+    salinity = 0,
+   model = "garcia-benson"
+))
+
+lakes_with_o
+View(lakes_with_o)
+
+lakes = c(lakes_CF, lakes_with_o)
+lakes
