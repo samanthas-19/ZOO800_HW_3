@@ -1,4 +1,4 @@
-## Created by: Samantha Summerfield, 
+## Created by: Samantha Summerfield, Evan Peepo
 ## Date: 9/18/25
 
 
@@ -107,3 +107,32 @@ View(lakes_with_o)
 
 lakes = c(lakes_CF, lakes_with_o)
 lakes
+
+##-------------Objective 4----------------##
+
+for (n in 1:10) {
+  print(n^2)
+}
+pop <- vector('numeric', 10L)
+
+for (t in 1:10) {
+  pop[t] <- (10 * exp(.3 * t))
+}  
+
+lake1 <- c(7, 14, 32, 18)
+lake2 <- c(35, 21, 6, 13)
+lake3 <- c(22, 11, 15, 5)
+lake4 <- c(12, 33, 25, 9)
+lake5 <- c(15, 21, 6, 36)
+
+lake_phos_list <- list(lake1, lake2, lake3, lake4, lake5)
+
+lake_means <- vector('numeric', 5L)
+
+for (i in 1:5) {
+  lake_means[i] <- mean(lake_phos_list[[i]])
+  print(paste0('Lake', i, ' mean phosphorus = ', lake_means[i], 'µg/L'))
+  
+}
+
+lake_means
