@@ -1,4 +1,4 @@
-## Created by: Samantha Summerfield, Evan Peepo
+## Created by: Samantha Summerfield, Evan Peepo, Maggie Phillips
 ## Date: 9/18/25
 
 
@@ -134,3 +134,16 @@ for (i in 1:5) {
 }
 
 lake_means
+
+##----------------Objective 5------------------##
+
+#chlorophyll array
+apply(chlorophyll_array, 1, mean) #the 1 is for rows. order is object, row/column, function
+apply(chlorophyll_array, 2, mean) #the 2 is for columns
+
+#lakes data frame
+apply(lakes[, c(2, 3)], 2, range) #you can subset within the apply statement to exclude the lake names column
+
+#pop growth
+lapply((1:10), function(x) x^2) #using generic function x and defining it in the lapply statement
+#lapply definitely feels cleaner. For something simple like this, it might be easier, but for loops make more sense otherwise
