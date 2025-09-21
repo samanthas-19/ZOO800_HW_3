@@ -104,6 +104,11 @@ View(lakes_with_o)
 lakes = c(lakes_CF, lakes_with_o)
 lakes
 
+#Bonus (Evan's solution)
+lakes$equilibrium_O2_conc <- o2.at.sat.base(lakes$Temp_C) #uses LakeMetabolizer function that takes temp in C and calculates equilibrium concentration of oxygen
+lakes$percent_O2_saturation <- lakes$DO_mgL / lakes$equilibrium_O2_conc * 100 #measured dissolved oxygen concentration / equilibrium O2 concentration calculated above * 100
+lakes <- lakes[order(lakes$percent_O2_saturation),] #orders dataframe by ascending percent O2 saturation. 
+
 ##-------------Objective 4----------------##
 
 #1.
