@@ -9,7 +9,7 @@
 temp_C = 18.5
 
 #2. using the calculation Celsius to Fahrenheit C*9/5 +32
-temp_F = ((temp_C * 9/5) + 32)
+temp_F = ((temp_C *9/5) +32)
 
 #3. use print function to make the sentence
 ##the paste0 allows us to add the variables and characters together
@@ -64,7 +64,7 @@ average_temp
 average_DO = mean(lakes$DO_mgL)
 average_DO
 
-#3. create new column Temp_F
+#3. create the formula with Temp_C to Fahrenheit
 
 lakes$Temp_F <- lakes$Temp_C * 9/5 + 32 #adds new column Temp_F to lakes which uses values from Temp_C column and applies conversion
 
@@ -74,13 +74,18 @@ lakes$Temp_F <- lakes$Temp_C * 9/5 + 32 #adds new column Temp_F to lakes which u
 ##load library
 library(LakeMetabolizer)
 
-#------this part I am currently working on------#
-O_equilibrium_concentration = data.frame(lakes_CF$Temp_C, colnames("O_equilibrium_concentration"))
+#------Samantha's bonus attempt------#
+#make new data frame for the O equilibrium code
+O_equilibrium_concentration = data.frame(lakes$Temp_C)
 
+#make sure the column name was correct
 colnames(O_equilibrium_concentration) = "O_equilibrium_concentration"
 
+#print to see that the table looks correct
 O_equilibrium_concentration
 
+#use the function from the package instructions from R help website
+#this function calculates the saturation
 O_equilibrium_conc =
   o2.at.sat.base(
     O_equilibrium_concentration,
@@ -88,21 +93,11 @@ O_equilibrium_conc =
     salinity = 0,
     model = "garcia-benson"
   )
-
-o_equilibrium_conc = data.frame(
-  O_equilibrium_concentration =
-    o2.at.sat.base(
-    o_equilibrium_conc,
-    altitude = 0,
-    salinity = 0,
-   model = "garcia-benson"
-))
-
-lakes_with_o
-View(lakes_with_o)
-
-lakes = c(lakes_CF, lakes_with_o)
+#add the new data frame which has the O values to the lakes df
+lakes = c(lakes_CF, O_equilibrium_conc)
+#print to see it looks right
 lakes
+####after this I got stuck trying the rest, would love to go over in class!
 
 #Bonus (Evan's solution)
 lakes$equilibrium_O2_conc <- o2.at.sat.base(lakes$Temp_C) #uses LakeMetabolizer function that takes temp in C and calculates equilibrium concentration of oxygen
@@ -121,7 +116,6 @@ pop <- vector('numeric', 10L) #initiate empty vector with 10 elements
 for (t in 1:10) {
   pop[t] <- (10 * exp(.3 * t)) #runs growth equation with each time t (1-10) and assigns to element in pop
 }  
-pop
 
 #3.
 lake1 <- c(7, 14, 32, 18)
@@ -152,8 +146,7 @@ apply(chlorophyll_array, 2, mean) #the 2 is for columns
 
 #2. lakes data frame
 apply(lakes[, c(2, 3)], 2, range) #you can subset within the apply statement to exclude the lake names column
-apply(lakes[, c(2, 3)], 2, function(x) max(x) - min(x)) #calculate difference between max and min by making function
 
 #pop growth
-sapply((1:10), function(x) x^2) #using generic function x and defining it in the sapply statement
-#sapply definitely feels cleaner. For something simple like this, it might be easier, but for loops make more sense otherwise
+lapply((1:10), function(x) x^2) #using generic function x and defining it in the lapply statement
+#lapply definitely feels cleaner. For something simple like this, it might be easier, but for loops make more sense otherwise
