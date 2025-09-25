@@ -1,1 +1,2 @@
-# ZOO800_HW_3
+# ZOO800_HW
+##This repo holds many homework assignments
