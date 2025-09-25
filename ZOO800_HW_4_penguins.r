@@ -12,7 +12,7 @@ library(palmerpenguins)
 
 
 #bring in the penguins data from the package by making it into a data frame
-penguins = data.frame(penguins)
+penguins <- penguins
 
 ##---------------------------Objective 1---------------------------##
 
@@ -38,6 +38,16 @@ penguins$body_size <- binary(
 #look to see if this is correct
 View(penguins)
 
+#------Evan's solution------#
+
+median_mass <- median(penguins$body_mass_g, na.rm = TRUE) #break point between small and large
+
+continuous_to_binary <- function(df, column, breakpoint, name1, name2) { #function that takes a column from a dataframe, a specified break point to make data binary, and names for the binary variables
+  df[column] <- ifelse(df[column] <= breakpoint, name1, name2) #for each value in column, if it is less than or equal to breakpoint, replace original value with binary name1, if larger, replace with name2
+  return(df) #return the whole dataframe with the updated column values
+}     
+
+penguins_small_large <- continuous_to_binary(penguins, 6, breakpoint = median_mass, name1 = 'small', name2 = 'large') #apply function to penguins_df to make body mass binary
 
 ##---------------------------Objective 2---------------------------##
 
@@ -73,6 +83,22 @@ penguins$body_size <- binary(
 #check to make sure the sizes are sorted as small, medium, and large
 View(penguins)
 
+#------Evan's solution------#
+
+data_to_categories <- function(df, column, breakpoints, category_labels) { #takes column from data frame and vectors of breakpoints and category labels 
+  df[column] <- cut(unlist(df[column]), breaks = breakpoints, labels = category_labels) #uses cut function to divide data into specified breaks and label according to value. replaces original column with categorical data. 
+  return(df) #return the whole dataframe with updated column values
+}
+
+quantile(penguins$body_mass_g, 1/3, na.rm = TRUE) #split data into thirds by percentile for breakpoints                    
+quantile(penguins$body_mass_g, 2/3, na.rm = TRUE)  
+min(penguins$body_mass_g, na.rm = TRUE)
+max(penguins$body_mass_g, na.rm = TRUE)
+
+cutoffs <- c(2700, 3700, 4550, 6300)
+mass_labels <- c('small', 'medium', 'large')
+
+penguins_sml <- data_to_categories(penguins, 6, cutoffs, mass_labels) #apply function to penguins_df to split body mass into small, medium, large
 
 ##---------------------------Objective 3---------------------------##
 
