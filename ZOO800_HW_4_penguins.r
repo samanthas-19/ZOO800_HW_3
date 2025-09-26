@@ -145,10 +145,28 @@ do.call("rbind",tapply(penguins$species, penguins$body_mass_g, quantile))
 #three levels with different breakpoints for each species
 
 
+#------Evan's solution------#
 
+data_to_categories_2 <- function(df, species_column_name, mass_column_name, category_labels) {
+  species <- unique(df[[species_column_name]]) #find each unique species name
+  subset_list <- list() #create empty list that will be used at the end
+  for (i in species) { #loop for each species
+    df_subset <- df[df[[species_column_name]] == i, ] #subset df to just use data for species i
+    quantile1 <- quantile(df_subset[[mass_column_name]], 1/3, na.rm = TRUE) #33% quantile
+    quantile2 <- quantile(df_subset[[mass_column_name]], 2/3, na.rm = TRUE) #67% quantile
+    min <- min(df_subset[[mass_column_name]], na.rm = TRUE) #min mass
+    max <- max(df_subset[[mass_column_name]], na.rm = TRUE) #max mass
+    breakpoints <- c(min, quantile1, quantile2, max) #create vector of breakpoints
+    df_subset[[mass_column_name]] <- cut(df_subset[[mass_column_name]], breaks = breakpoints, labels = category_labels) #use cut to replace original numbers with categories based on the breakpoints
+    subset_list[[i]] <- df_subset #add df_subset to list so it doesn't get overwritten
+  }
+  new_df <- do.call(rbind, subset_list) #this combines each species dataframe that was saved in the list 
+  row.names(new_df) = NULL #remove unnecessary row names
+  return(new_df) #return combined dataframe with all species and updated mass values
+}    
 
-
-
+mass_labels <- c('small', 'medium', 'large')
+penguins_species_sml <- data_to_categories_2(df = penguins, 'species', 'body_mass_g', mass_labels)    
 
 
 ##---------------------------Objective 4---------------------------##
